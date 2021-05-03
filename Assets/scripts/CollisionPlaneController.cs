@@ -15,7 +15,7 @@ public class CollisionPlaneController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         transform.LookAt(2 * transform.position - player.position); // rotates the plane towards the player
         timeAlive = 0;
-    }
+    } 
 
     // Update is called once per frame
     void Update()
