@@ -7,7 +7,7 @@ public class FractalCreator : MonoBehaviour
     [Range(0, 1)]
     public float color;
 
-    [Range(0, 7)]
+    [Range(1, 8)]
     public int fractalType;
 
     private RaymarchCam camScript;
@@ -73,46 +73,49 @@ public class FractalCreator : MonoBehaviour
 
         switch (nr)
         {
-            case 0:
+            case 1:
                 camScript._drawMergerSponge = true;
                 Debug.Log("MengerSponge");
                 break;
 
-            case 1:
+            case 2:
                 camScript._drawMergerCylinder = true;
                 Debug.Log("MengerCylinder");
                 break;
 
-            case 2:
+            case 3:
                 camScript._drawMergerPyramid = true;
                 Debug.Log("MengerPyramid");
                 break;
 
-            case 3:
+            case 4:
                 camScript._drawNegativeSphere = true;
                 Debug.Log("inversesphere");
                 break;
 
-            case 4:
+            case 5:
                 camScript._drawSphere = true;
                 Debug.Log("Sphere");
                 break;
 
-            case 5:
+            case 6:
                 camScript._drawBox = true;
                 Debug.Log("box");
                 break;
             
-            case 6:
+            case 7:
                 camScript._drawLandscape = true;
                 Debug.Log("Landscape");
                 break;
             
-            case 7:
+            case 8:
                 camScript._drawTower = true;
                 Debug.Log("Tower");
                 break;
                 
+            case 0:
+                Debug.Log("none of the above");
+                break;
         }
     }
 

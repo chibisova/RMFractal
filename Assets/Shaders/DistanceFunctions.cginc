@@ -542,6 +542,7 @@ float lampshadePattern(float3 p)
     return max(rxy-0.92784, abs(rxy*p.z) / length(p))/DEfactor;
 }
 
+
 float towerIFS(float3 z, float _scale)
 {
     int FRACT_ITER      = 20;
@@ -566,4 +567,3 @@ float towerIFS(float3 z, float _scale)
     }
     return (length(z) ) * pow(FRACT_SCALE, -float(FRACT_ITER));
 }
-

@@ -120,7 +120,7 @@ public class FractalRandomizer : MonoBehaviour
         camScript._drawLandscape = false;
         camScript._drawTower = false;
 
-        int fractalnr = Random.Range(0, 8);
+        int fractalnr = Random.Range(1, 8);
 
         switch (fractalnr)
         {
