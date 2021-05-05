@@ -21,8 +21,26 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/CreatorScene.unity
+    path: Assets/Scenes/Classes/CreatorScene.unity
     guid: 9be4d2a6794fd4184b05578d69977f3e
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 76f3b677df6104cec88258846cdabdfe
+  - enabled: 1
+    path: Assets/Scenes/Classes/LSystemTown.unity
+    guid: e4a2c617f737f4883a07ebdb0f7540c0
+  - enabled: 1
+    path: Assets/Scenes/Classes/Landscape.unity
+    guid: c9fa31e2df5754e69b549eba8d1b2580
+  - enabled: 0
+    path: Assets/Town/Assets/LSystemTown.unity
+    guid: 9cba73bb6b18f764ca38f8af599574e9
+  - enabled: 0
+    path: Assets/Scenes/ProceduralTownTutorial.unity
+    guid: e84bf3d4a6d1f1446acb59b75a5834d9
+  - enabled: 0
+    path: Assets/Scenes/RMFractal.unity
+    guid: 1ddc4598a4af249a7b4802bf15fc2a78
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
