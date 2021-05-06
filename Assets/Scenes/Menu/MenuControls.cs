@@ -7,7 +7,7 @@ public class MenuControls : MonoBehaviour
     // Start is called before the first frame update
     public void SetInterier()
     {
-        SceneManager.LoadScene("CreatorScene");
+        SceneManager.LoadScene("Interier");
     }
     public void SetTown()
     {
