@@ -79,7 +79,7 @@ public class FractalCreator : MonoBehaviour
                 break;
 
             case 2:
-                camScript._drawMergerCylinder = true;
+                camScript._drawTower = true;
                 Debug.Log("MengerCylinder");
                 break;
 

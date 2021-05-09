@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Rotation : MonoBehaviour {
 
@@ -9,4 +10,5 @@ public class Rotation : MonoBehaviour {
     {
         this.transform.rotation *= Quaternion.Euler(angle * ((bundle.Index * 2) - 1), 0, 0);
     }
+    
 }

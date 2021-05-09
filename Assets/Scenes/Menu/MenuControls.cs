@@ -17,6 +17,14 @@ public class MenuControls : MonoBehaviour
     {
         SceneManager.LoadScene("Landscape");
     }
+    public void SetTree()
+    {
+        SceneManager.LoadScene("Tree");
+    }
+    public void SetHouse()
+    {
+        SceneManager.LoadScene("House");
+    }
     public void ExitPressed()
     {
         Debug.Log("Exit pressed!");

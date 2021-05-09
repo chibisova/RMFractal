@@ -3,53 +3,63 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class RecursiveInstantiator : MonoBehaviour {
-
 	public Canvas canvasFields;
-    public int recurse = 5;
+
+    public int recurse = 8;
     public int splitNumber = 2;
     public Vector3 pivotPosition;
-
     private InputField[] uiFields;
-	// Use this for initialization
-	void Awake()
-	{
-		if (canvasFields != null)
-		{
-			uiFields = canvasFields.GetComponentsInChildren<InputField>();
-		}
+    void Awake()
+    {
+	    canvasFields = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();;
+	    Debug.Log("Got" );
 
-	}
-	void Start () {
-		PopulateFields();
-		UpdateParams();
-
-        recurse -= 1;
-
-	    for (int i = 0; i < splitNumber; ++i)
+	    if (canvasFields != null)
 	    {
-	        if (recurse > 0)
-	        {
-	            var copy = Instantiate(gameObject);
-	            var recursive = copy.GetComponent<RecursiveInstantiator>();
-	            recursive.SendMessage("Generated", new RecursiveBundle() { Index = i, Parent = this });
-	        }
-	    }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
+		    Debug.Log("Inside" );
 
-	private void UpdateParams()
+		    uiFields = canvasFields.GetComponentsInChildren<InputField>();
+	    }
+
+    }
+
+	// Use this for initialization
+	void Start ()
 	{
+		PopulateFields();
+		Create();
+	}
+
+	public void Create()
+	{
+		recurse -= 1;
+
+		for (int i = 0; i < splitNumber; ++i)
+		{
+			if (recurse > 0)
+			{
+				var copy = Instantiate(gameObject);
+				var recursive = copy.GetComponent<RecursiveInstantiator>();
+				recursive.SendMessage("Generated", new RecursiveBundle() { Index = i, Parent = this });
+				
+			}
+		}
+	}
+	// ------- UI Fields params -------
+	void Update()
+	{
+	}
+	public void TaskOnClick()
+	{
+		Debug.Log("Set" );
 		if (uiFields != null && uiFields.Length > 0)
 		{
+			Debug.Log("Inside" );
 			foreach (var field in uiFields)
 			{
-				if (field.text.Length > 0 && field.name.ToLower().StartsWith("iterations"))
+				if (field.text.Length > 0 && field.name.ToLower().StartsWith("iter"))
 				{
+					Debug.Log("Iter" );
 					var value = int.Parse(field.text);
 					if (recurse != value)
 					{
@@ -68,14 +78,20 @@ public class RecursiveInstantiator : MonoBehaviour {
 				}
 			}
 		}
+		
+		Debug.Log("Pressed!");
+		Create();
+		
 	}
+
+
 	private void PopulateFields()
 	{
 		if (uiFields != null && uiFields.Length > 0)
 		{
 			foreach (var field in uiFields)
 			{
-				if (field.name.ToLower().StartsWith("iterations"))
+				if (field.name.ToLower().StartsWith("iter"))
 				{
 					field.text = recurse.ToString();
 				}
@@ -84,8 +100,8 @@ public class RecursiveInstantiator : MonoBehaviour {
 				{
 					field.text = splitNumber.ToString();
 				}
-
 			}
 		}
 	}
+	
 }
