@@ -17,7 +17,7 @@ Shader "Hidden/RaymarchShader"
             #pragma target 3.0
 
             #include "UnityCG.cginc"
-            #include "DistanceFunctions.cginc"
+            #include "DistanceF.cginc"
   
             sampler2D _MainTex;
             uniform sampler2D _CameraDepthTexture;
@@ -26,7 +26,7 @@ Shader "Hidden/RaymarchShader"
             uniform float4 _sphere1, _sphere2, _box1, _fractal;
             uniform float3 _modInterval;
             uniform float3 _LightDir;
-            uniform fixed4 _mainColor, _secColor, _skyColor;
+            uniform fixed4 _mainColor, _secColor, _skyColor, _mainTexture;
             uniform float _precision, _lightIntensity, _shadowIntensity, _aoIntensity, _forceFieldRad, _GlobalScale;
             uniform int _iterations, _functionNum;
             uniform int _useNormal;
@@ -78,54 +78,16 @@ Shader "Hidden/RaymarchShader"
             }
 
             //Ray dicstance count
-            float distanceField(float3 p){
+            float distanceF(float3 p){
 
                 float2 dist;
 
                 if(_functionNum == 1){
                     dist = sdMerger(p,_GlobalScale, _iterations,_modOffsetPos ,_iterationTransform, _globalTransform, _smoothRadius, _scaleFactor);
                 }
-                //merger cylinder
-                else if(_functionNum == 2){
-                    dist = sdMergerCyl(p,_GlobalScale, _iterations,_modOffsetPos ,_iterationTransform, _globalTransform, _smoothRadius, _scaleFactor);
-                }
-                //mergerPyr
-                else if(_functionNum == 3){
-                    //dist = sdtriangleCross(p, _GlobalScale);
-                    dist = sdMergerPyr(p,_GlobalScale, _iterations,_modOffsetPos ,_iterationTransform, _globalTransform, _smoothRadius, _scaleFactor,
-                                        float4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
-                } 
-                // neg sphere
-                else if(_functionNum == 4){
-                    dist = sdNegSphere(p,_GlobalScale, _iterations,_modOffsetPos ,_iterationTransform, _globalTransform, _innerSphereRad, _scaleFactor);
-                }
-                // Sierpinski
-                else if(_functionNum == 5){
-                    dist = sdSierpinski(p, _scaleFactor);
-                }
-                // Mandelbulb
-                else if(_functionNum == 6){
-                    dist = mandelbulb(p, _power,  _iterations, _smoothRadius);
-                } 
-                // Tower IFS
-                else if(_functionNum == 7){
-                    dist = towerIFS(p);
-                }
-                // Modern windows
-                else if(_functionNum == 8){
-                    dist = modernWindows(p);
-                } 
-                // Jungles 
-                else if(_functionNum == 9){
-                    dist = infinityJungles(p);
-                }
-                // Pseudo Kleinian
-                else if(_functionNum == 10){
-                    dist = pseudo_kleinian(p);
-                }
-                // Lampshade pattern
-                else if(_functionNum == 11){
-                    dist = terrain3SDF(p, float4(0,1,0,0));
+                else if (_functionNum == 2)
+                {
+                    dist = towerIFS(p, _GlobalScale);
                 }
                 return dist;
             }
@@ -138,7 +100,7 @@ Shader "Hidden/RaymarchShader"
                 float ph = 1e20;
                 for( float t=mint; t<maxt; )
                 {
-                    float h = min(distanceField(ro + rd*t),sdforceField(ro + rd*t));
+                    float h = min(distanceF(ro + rd*t),sdforceField(ro + rd*t));
                     if( h<0.001 ) return 0.0;
                     float y = h*h/(2.0*ph);
                     float d = sqrt(h*h-y*y);
@@ -151,9 +113,9 @@ Shader "Hidden/RaymarchShader"
 
             // returns the normal in a single point of the fractal
             float3 getNormal(float3 p){
-                float d = distanceField(p).x;
+                float d = distanceF(p).x;
                 const float2 e = float2(.01, 0);
-                float3 n = d - float3(distanceField(p - e.xyy).x,distanceField(p - e.yxy).x,distanceField(p - e.yyx).x);
+                float3 n = d - float3(distanceF(p - e.xyy).x,distanceF(p - e.yxy).x,distanceF(p - e.yyx).x);
                 return normalize(n);
             }
 
@@ -184,7 +146,7 @@ Shader "Hidden/RaymarchShader"
                     float _forceField = sdforceField(p);
 
                     //check for hit in distancefield
-                    float2 d = distanceField(p);
+                    float2 d = distanceF(p);
 
                     if (d.x < _precision) { //We have hit smth
                         //shading
@@ -236,7 +198,6 @@ Shader "Hidden/RaymarchShader"
                             t+= min(d.x * 0.5f, _forceField);
                         }
                         else t+= min(d.x, _forceField);
-                        
                         
                     }
                     else t += d.x;
